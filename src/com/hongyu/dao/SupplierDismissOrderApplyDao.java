@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.SupplierDismissOrderApply;import com.grain.dao.BaseDao;public interface SupplierDismissOrderApplyDao extends BaseDao<SupplierDismissOrderApply, Long>{}

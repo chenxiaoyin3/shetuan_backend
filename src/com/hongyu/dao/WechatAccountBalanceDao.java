@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.WechatAccountBalance;import com.grain.dao.BaseDao;public interface WechatAccountBalanceDao extends BaseDao<WechatAccountBalance, Long>{}

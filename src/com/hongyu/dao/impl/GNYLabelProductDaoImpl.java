@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.GNYLabelProductDao;import com.hongyu.entity.GNYLabelProduct;@Repository("gnyLabelProductDaoImpl")public class GNYLabelProductDaoImpl extends BaseDaoImpl<GNYLabelProduct, Long> implements GNYLabelProductDao {}

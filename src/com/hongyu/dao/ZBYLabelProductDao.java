@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.ZBYLabelProduct;import com.grain.dao.BaseDao;public interface ZBYLabelProductDao extends BaseDao<ZBYLabelProduct, Long>{}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 saleTime">年份</entry>
+	<entry key="2 saleJan">一月</entry>
+	<entry key="3 saleFeb">二月</entry>
+	<entry key="4 saleMar">三月</entry>
+	<entry key="5 saleApr">四月</entry>
+	<entry key="6 saleMay">五月</entry>
+	<entry key="7 saleJun">六月</entry>
+	<entry key="8 saleJul">七月</entry>
+	<entry key="9 saleAug">八月</entry>
+	<entry key="10 saleSep">九月</entry>
+	<entry key="11 saleOct">十月</entry>
+	<entry key="12 saleNov">十一月</entry>
+	<entry key="13 saleDec">十二月</entry>
+</properties>

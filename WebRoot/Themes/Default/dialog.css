@@ -1,0 +1,82 @@
+.bbit-window
+{
+    display:block;z-index:999;position:absolute;left:0;top:0;
+    background-color:#FFFFFF;
+    border-radius:5px;
+}
+.bbit-window-dailog{border:0px}
+.bbit-window .bbit-resizable-handle{opacity:0;-moz-opacity:0;filter:alpha(opacity=0)}
+.bbit-window-proxy{border:1px solid;z-index:12000;overflow:hidden;position:absolute;left:0;top:0;display:none;opacity:.5;-moz-opacity:.5;filter:alpha(opacity=50)}
+
+.bbit-window-bwrap
+{
+    text-align:center; 
+}
+.bbit-window-tl .bbit-window-header{padding:0;margin:0}
+.bbit-window-header-text
+{
+    font-weight:bold;color:#000;
+}
+
+.bbit-window-tl
+{
+    position:relative;
+    height:30px;
+    line-height:30px;
+    text-align:center;           
+    background-color:#F7F7F7;
+    font-size:13px;
+    border-bottom:solid 1px #E5E5E5;
+    border-radius:5px 5px 0px 0px;
+}
+.bbit-window-close
+{
+    position: absolute;
+    top: 0px;
+    right: 4px;
+    width: 30px;
+    height: 30px;
+    background-image: url("/themes/v2/image/knowledge-close.png");
+}
+.bbit-window-tr{background:transparent no-repeat right 0;padding-right:6px}
+.bbit-window-bc{background:transparent repeat-x 0 bottom;zoom:1}
+.bbit-window-bc .bbit-window-footer{padding-bottom:6px;zoom:1;font-size:0;line-height:0}
+.bbit-window-bl{background:transparent no-repeat 0 bottom;padding-left:6px;zoom:1}
+.bbit-window-br{background:transparent no-repeat right bottom;padding-right:6px;zoom:1}
+.bbit-window-mc{border:1px solid;padding:0;margin:0}
+.bbit-window-ml{background:transparent repeat-y 0 0;padding-left:6px;zoom:1}
+.bbit-window-mr{background:transparent repeat-y right 0;padding-right:6px;zoom:1}
+.bbit-window-body{overflow:hidden;margin:0px auto;}
+
+.bbit-window-maximized .bbit-window-bl,.bbit-window-maximized .bbit-window-br,.bbit-window-maximized .bbit-window-ml,.bbit-window-maximized .bbit-window-mr,.bbit-window-maximized .bbit-window-tl,.bbit-window-maximized .bbit-window-tr{padding:0}
+.bbit-window-maximized .bbit-window-footer{padding-bottom:0}
+.bbit-window-maximized .bbit-window-tc{padding-left:3px;padding-right:3px}
+.bbit-window-maximized .bbit-window-mc{border-left:0 none;border-right:0 none}
+.bbit-window-tbar .bbit-toolbar,.bbit-window-bbar .bbit-toolbar{border-left:0 none;border-right:0 none}
+.bbit-window-bbar .bbit-toolbar{border-top:1px solid;border-bottom:0 none}
+.bbit-window-draggable,.bbit-window-draggable .bbit-window-header-text{cursor:move}
+.bbit-window-maximized .bbit-window-draggable,.bbit-window-maximized .bbit-window-draggable .bbit-window-header-text{cursor:default}
+
+.bbit-panel-ghost{border-bottom:1px solid}
+.bbit-panel-collapsed{border-bottom:1px solid}
+.bbit-window-maximized-ct{overflow:hidden}
+.bbit-window-maximized .bbit-resizable-handle{display:none}
+.bbit-window-sizing-ghost ul{border:0 none!important}
+.bbit-dlg-focus{-moz-outline:0 none;outline:0 none;width:0;height:0;overflow:hidden;position:absolute;top:0;left:0}
+.ext-webkit .bbit-dlg-focus{width:1px;height:1px}
+.bbit-dlg-mask{z-index:10000;display:none;position:absolute;top:0;left:0;-moz-opacity:.5;opacity:.50;filter:alpha(opacity=50)}
+body.ie6.bbit-body-masked select{visibility:hidden}
+body.ext-ie6.bbit-body-masked .bbit-window select{visibility:visible}
+.bbit-window-mc{border:0}
+
+.bbit-window-tc{background-image:url(images/dailog/top-bottom.png)}
+
+.bbit-window-tr{background-image:url(images/dailog/right-corners.png)}
+.bbit-window-bl{border-left:solid 1px #a6a7aa;border-bottom:solid 1px #a6a7aa;background-color:#ededed}
+.bbit-window-br{border-right:solid 1px #a6a7aa}
+.bbit-window-mc{border-color:#99bbe8;font:normal 11px tahoma,arial,helvetica,sans-serif;background-color:#c6d4e4}
+.bbit-window-ml{border-left:solid 1px #a6a7aa;background-color:#ededed}
+.bbit-window-mr{border-right:solid 1px #a6a7aa;background-color:#ededed}
+div.bbit-tool{font-size:1px;background:url("images/dailog/tool-sprites.gif") no-repeat}
+div.bbit-tool-close{cursor:pointer;float:right;margin-right:8px;margin-top:2px;width:15px;height:15px;background:url(images/dailog/sprites.png) no-repeat -542px -152px}
+div.hover.bbit-window-close{background-position:0px -30px;}

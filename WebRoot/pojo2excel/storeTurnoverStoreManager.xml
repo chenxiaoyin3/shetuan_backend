@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 staffName">员工</entry>
+	<entry key="2 orderNum">订单数</entry>
+	<entry key="3 customerNum">收客人数</entry>
+	<entry key="4 turnover">总计金额</entry>
+	
+</properties>

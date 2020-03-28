@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 y_m">年月</entry>
+	<entry key="2 provider">供应商</entry>
+	<entry key="3 people">总人数</entry>
+	<entry key="4 pr">总人数占比</entry>
+	<entry key="5 money">总销售额</entry>
+    <entry key="6 mr">总销售额占比</entry>
+    <entry key="7 fanli">返利总金额</entry>
+</properties>

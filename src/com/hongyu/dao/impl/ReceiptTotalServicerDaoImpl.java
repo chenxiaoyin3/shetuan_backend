@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.ReceiptTotalServicerDao;import com.hongyu.entity.ReceiptTotalServicer;@Repository("receiptTotalServicerDaoImpl")public class ReceiptTotalServicerDaoImpl extends BaseDaoImpl<ReceiptTotalServicer, Long> implements ReceiptTotalServicerDao {}

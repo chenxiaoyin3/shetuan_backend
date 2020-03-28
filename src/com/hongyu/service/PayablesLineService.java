@@ -1,0 +1,1 @@
+package com.hongyu.service; import com.grain.service.BaseService;import com.hongyu.entity. PayablesLine;public interface PayablesLineService extends BaseService<PayablesLine,Long>{}

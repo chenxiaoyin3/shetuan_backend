@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	  http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	  http://www.springframework.org/schema/aop 
+	  http://www.springframework.org/schema/aop/spring-aop-4.0.xsd  
+	  http://www.springframework.org/schema/context 
+	  http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	  http://www.springframework.org/schema/tx 
+	  http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	  http://www.springframework.org/schema/cache 
+	  http://www.springframework.org/schema/cache/spring-cache-4.0.xsd
+	  http://www.springframework.org/schema/task 
+	  http://www.springframework.org/schema/task/spring-task-4.0.xsd">
+
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:config-${spring.profiles.active}.properties" />
+<!--
+    <context:property-placeholder location="classpath*:/grain.properties" ignore-resource-not-found="true" ignore-unresolvable="true"/>
+-->
+
+    <context:component-scan base-package="com">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- Druid  start-->
+    <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${connection_pools.initial_pool_size}"/>
+        <property name="minIdle" value="${connection_pools.min_pool_size}"/>
+        <property name="maxActive" value="${connection_pools.max_pool_size}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 这里建议配置为TRUE，防止取到的连接不可用。获取链接的时候，不校验是否可用，开启会有损性能-->
+        <property name="testOnBorrow" value="false"/>
+        <!-- 归还链接到连接池的时候校验链接是否可用 -->
+        <property name="testOnReturn" value="false"/>
+        <!-- 此项配置为true即可，不影响性能，并且保证安全性。意义为：申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效 -->
+        <property name="testWhileIdle" value="true"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- 链接使用超过时间限制是否回收 -->
+        <property name="removeAbandoned" value="true"/>
+        <!-- 超过时间限制时间（单位秒），目前为5分钟，如果有业务处理时间超过5分钟，可以适当调整。 -->
+        <property name="removeAbandonedTimeout" value="300"/>
+        <!-- #链接回收的时候控制台打印信息，测试环境可以加上true，线上环境false。会影响性能。 -->
+        <property name="logAbandoned" value="true"/>
+        <!-- 验证连接有效与否的SQL，不同的数据配置不同 -->
+        <property name="validationQuery" value="select 1 "/>
+        <!-- 配置监控统计拦截的filters，用于在界面中统计sql和开启druid防火墙。注意： -->
+        <!-- 监控中有jdbcSqlStat，原因是：com.alibaba.druid.statJdbcDataSourceStat中的createSqlStat方法中，用了一个map来存放所有的sql语句，这样会导致线上触发FullGC，可将此处注释掉 -->
+        <property name="filters" value="wall,stat"/>
+        <!-- 映射慢sql -->
+        <property name="proxyFilters">
+            <list>
+                <ref bean="statfilter"/>
+                <ref bean="logFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 慢SQL记录  -->
+    <bean id="statfilter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <!-- 开启合并sql -->
+        <property name="mergeSql" value="true"/>
+        <!-- 开启慢查询语句,200毫秒 -->
+        <property name="slowSqlMillis" value="500"/>
+        <property name="logSlowSql" value="true"/>
+    </bean>
+
+    <bean id="logFilter" class="com.alibaba.druid.filter.logging.Log4jFilter">
+        <property name="resultSetLogEnabled" value="false"/>
+        <property name="statementExecutableSqlLogEnable" value="true"/>
+    </bean>
+
+    <!--开启spring监控-->
+    <bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor"></bean>
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
+        <property name="patterns">
+            <list>
+                <value>com.grain.dao.*</value>
+                <value>com.grain.service.*</value>
+                <value>com.hongyu.dao.*</value>
+                <value>com.hongyu.service.*</value>
+            </list>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut"/>
+    </aop:config>
+    <!-- Druid   end-->
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceXmlLocation" value="classpath*:/persistence.xml"/>
+        <property name="persistenceUnitName" value="persistenceUnit"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="showSql" value="false"/>
+                <property name="generateDdl" value="false"/>
+            </bean>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+                <prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+                <prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+                <prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
+                <prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.jdbc.fetch_size">${hibernate.jdbc.fetch_size}</prop>
+                <prop key="hibernate.jdbc.batch_size">${hibernate.jdbc.batch_size}</prop>
+                <prop key="hibernate.connection.isolation">2</prop>
+                <prop key="javax.persistence.validation.mode">none</prop>
+                <prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</prop>
+                <prop key="hibernate.search.default.indexBase">${java.io.tmpdir}/${system.project_name}/index</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- activiti start-->
+    <bean id="processEngineFactory" class="org.activiti.spring.ProcessEngineFactoryBean">
+        <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
+    </bean>
+
+    <bean id="processEngineConfiguration" class="org.activiti.spring.SpringProcessEngineConfiguration">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="databaseSchema" value="ACT"/>
+        <!-- databaseSchemaUpdate=true: Activiti在启动时，会对数据库中所有表进行更新，如果表不存在，则Activiti会自动创建。 -->
+        <property name="databaseSchemaUpdate" value="true"/>
+        <property name="jpaEntityManagerFactory" ref="entityManagerFactory"/>
+        <property name="jpaHandleTransaction" value="true"/>
+        <property name="jpaCloseEntityManager" value="true"/>
+        <property name="jobExecutorActivate" value="false"/>
+    </bean>
+
+    <bean id="repositoryService" factory-bean="processEngineFactory" factory-method="getRepositoryService"/>
+    <bean id="runtimeService" factory-bean="processEngineFactory" factory-method="getRuntimeService"/>
+    <bean id="formService" factory-bean="processEngineFactory" factory-method="getFormService"/>
+    <bean id="identityService" factory-bean="processEngineFactory" factory-method="getIdentityService"/>
+    <bean id="taskService" factory-bean="processEngineFactory" factory-method="getTaskService"/>
+    <bean id="historyService" factory-bean="processEngineFactory" factory-method="getHistoryService"/>
+    <bean id="managementService" factory-bean="processEngineFactory" factory-method="getManagementService"/>
+    <!-- activiti end-->
+
+    <!--Ehcache start-->
+    <cache:annotation-driven cache-manager="springCacheManager"/>
+
+    <bean id="springCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehCacheManager"/>
+    </bean>
+
+    <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:/ehcache.xml"/>
+        <property name="shared" value="true"/>
+    </bean>
+    <!--Ehcache end-->
+    <!-- Redis start -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis.maxTotal}" />         <!--最大分配的对象数 -->
+        <property name="maxIdle" value="${redis.maxIdle}" />               <!--最大能够保持idel空闲状态的对象数 -->
+        <property name="maxWaitMillis" value="${redis.maxWaitMillis}" /> <!--最大等待时间ms -->
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />   <!-- 当调用borrow Object方法时，在获取连接的时候是否进行检查有效性 -->
+    </bean>
+
+    <!-- redis连接工厂类 -->
+    <bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:host-name="${redis.host}" p:port="${redis.port}"
+          p:password="${redis.password}"
+          p:pool-config-ref="jedisPoolConfig" />
+
+    <!-- redis模板类 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate" p:connection-factory-ref="jedisConnectionFactory">
+        <!-- 如果不配置Serializer，那么存储的时候只能使用String，如果用对象类型存储，那么会提示错误 can't cast to String！！！-->
+
+        <!--对key的默认序列化器。默认值是StringSerializer-->
+        <property name="keySerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+
+        <!--对value的默认序列化器，默认值是取自DefaultSerializer的JdkSerializationRedisSerializer。-->
+        <property name="valueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+
+        <!--存储Map时key需要的序列化配置-->
+        <property name="hashKeySerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+
+        <!--存储Map时value需要的序列化配置-->
+        <property name="hashValueSerializer">
+            <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"/>
+        </property>
+    </bean>
+    <!-- Redis end -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="java.lang.System"/>
+        <property name="targetMethod" value="setProperty"/>
+        <property name="arguments">
+            <list>
+                <value>system.project_name</value>
+                <value>${system.project_name}</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置freeMarker的模板路径 -->
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPaths" value="${template.loader_path}"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="defaultEncoding">${template.encoding}</prop>
+                <prop key="url_escaping_charset">${url_escaping_charset}</prop>
+                <prop key="locale">${locale}</prop>
+                <prop key="template_update_delay">${template.update_delay}</prop>
+                <prop key="tag_syntax">auto_detect</prop>
+                <prop key="whitespace_stripping">true</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="number_format">${template.number_format}</prop>
+                <prop key="boolean_format">${template.boolean_format}</prop>
+                <prop key="datetime_format">${template.datetime_format}</prop>
+                <prop key="date_format">${template.date_format}</prop>
+                <prop key="time_format">${template.time_format}</prop>
+                <prop key="object_wrapper">freemarker.ext.beans.BeansWrapper</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="cacheSeconds" value="${message.cache_seconds}"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+        <property name="basenames">
+            <list>
+                <value>${message.common_path}</value>
+                <value>${message.shop_path}</value>
+                <value>${message.admin_path}</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+        <property name="defaultLocale" value="${locale}"/>
+    </bean>
+
+    <bean id="imageCaptchaService" class="com.octo.captcha.service.image.DefaultManageableImageCaptchaService">
+        <property name="captchaEngine">
+            <bean class="com.hongyu.CaptchaEngine"/>
+        </property>
+        <property name="minGuarantedStorageDelayInSeconds" value="3600"/>
+    </bean>
+
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="${task.core_pool_size}"/>
+        <property name="maxPoolSize" value="${task.max_pool_size}"/>
+        <property name="queueCapacity" value="${task.queue_capacity}"/>
+        <property name="keepAliveSeconds" value="${task.keep_alive_seconds}"/>
+    </bean>
+
+    <task:annotation-driven/>
+
+
+    <!-- 配置事务通知属性 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!-- 定义事务传播属性 -->
+        <tx:attributes>
+            <tx:method name="insert*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="edit*" propagation="REQUIRED"/>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="new*" propagation="REQUIRED"/>
+            <tx:method name="set*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="change*" propagation="REQUIRED"/>
+            <tx:method name="check*" propagation="REQUIRED"/>
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="find*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="load*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置事务切面 -->
+    <!--加入proxy-target-class="true" 即可,默认是false;-->
+    <aop:config proxy-target-class="true">
+        <aop:pointcut expression="execution(* com.hongyu.*.*(..))" id="serviceOperation"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation"/>
+    </aop:config>
+</beans>

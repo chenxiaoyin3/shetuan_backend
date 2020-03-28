@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 income">收入</entry>
+	<entry key="2 outcome">支出</entry>
+	<entry key="3 profit">利润</entry>
+	<entry key="4 profitRate">利润率</entry>
+	
+</properties>

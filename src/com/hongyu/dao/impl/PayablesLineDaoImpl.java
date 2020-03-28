@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.PayablesLineDao;import com.hongyu.entity.PayablesLine;@Repository("payablesLineDaoImpl")public class PayablesLineDaoImpl extends BaseDaoImpl<PayablesLine, Long> implements PayablesLineDao {}

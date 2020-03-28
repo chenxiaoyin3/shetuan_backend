@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.JDLabelProduct;import com.grain.dao.BaseDao;public interface JDLabelProductDao extends BaseDao<JDLabelProduct, Long>{}

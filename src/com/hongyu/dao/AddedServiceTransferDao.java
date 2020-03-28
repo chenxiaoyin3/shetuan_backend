@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.AddedServiceTransfer;import com.grain.dao.BaseDao;public interface AddedServiceTransferDao extends BaseDao<AddedServiceTransfer, Long>{}

@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.RefundInfo;import com.grain.dao.BaseDao;public interface RefundInfoDao extends BaseDao<RefundInfo, Long>{}

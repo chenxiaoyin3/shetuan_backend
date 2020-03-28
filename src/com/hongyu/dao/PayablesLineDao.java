@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.PayablesLine;import com.grain.dao.BaseDao;public interface PayablesLineDao extends BaseDao<PayablesLine, Long>{}

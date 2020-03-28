@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 specialtyName">特产名称</entry>
+	<entry key="2 saleNumber">销量</entry>
+	<entry key="3 saleAmount">销售额</entry>
+	<entry key="4 refundRate">退货率</entry>
+	<entry key="5 visitCount">访客量</entry>
+	<entry key="6 visitBuyRate">访购率</entry>
+</properties>

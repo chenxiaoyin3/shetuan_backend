@@ -1,0 +1,1 @@
+package com.hongyu.service; import com.grain.service.BaseService;import com.hongyu.entity. FenquLabel;public interface FenquLabelService extends BaseService<FenquLabel,Long>{}

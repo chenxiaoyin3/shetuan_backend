@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 productID">产品ID</entry>
+	<entry key="2 startDay">发团日期</entry>
+	<entry key="3 allIncome">收入</entry>
+	<entry key="4 allExpense">支出</entry>
+	<entry key="5 profit">利润</entry>
+</properties>

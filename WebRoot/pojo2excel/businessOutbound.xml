@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 productName">商品名称</entry>
+	<entry key="2 specificationName">规格</entry>
+	<entry key="3 costPrice">成本价</entry>
+	<entry key="4 platformPrice">平台价</entry>
+	<entry key="5 shipFee">运费</entry>
+	<entry key="6 outboundQuantity">出库数量</entry>
+	<entry key="7 depotCode">出库仓库</entry>
+</properties>

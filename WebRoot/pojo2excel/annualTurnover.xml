@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 saleTimeChinese">销售时间</entry>
+	<entry key="2 saleAmount">总销售额</entry>
+	<entry key="3 saleRate">占比</entry>
+</properties>

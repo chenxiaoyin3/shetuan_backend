@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.BalanceDueApplyItemDao;import com.hongyu.entity.BalanceDueApplyItem;@Repository("balanceDueApplyItemDaoImpl")public class BalanceDueApplyItemDaoImpl extends BaseDaoImpl<BalanceDueApplyItem, Long> implements BalanceDueApplyItemDao {}

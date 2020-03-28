@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.HyCountry;import com.grain.dao.BaseDao;public interface HyCountryDao extends BaseDao<HyCountry, Long>{}

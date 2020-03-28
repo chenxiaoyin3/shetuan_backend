@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.AddedServiceTransferDao;import com.hongyu.entity.AddedServiceTransfer;@Repository("addedServiceTransferDaoImpl")public class AddedServiceTransferDaoImpl extends BaseDaoImpl<AddedServiceTransfer, Long> implements AddedServiceTransferDao {}

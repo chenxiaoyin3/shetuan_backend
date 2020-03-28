@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 weBusinessName">微商姓名</entry>
+	<entry key="2 weChatAccount">微信账号</entry>
+	<entry key="3 salesAmount">分成额</entry>
+	<entry key="4 salesTime">结算日期</entry>
+	<entry key="5 balanceTime">生成日期</entry>
+</properties>

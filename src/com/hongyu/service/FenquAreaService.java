@@ -1,0 +1,1 @@
+package com.hongyu.service; import com.grain.service.BaseService;import com.hongyu.entity. FenquArea;public interface FenquAreaService extends BaseService<FenquArea,Long>{}

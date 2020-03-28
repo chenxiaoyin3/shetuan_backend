@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 departmentName">部门名称</entry>
+	<entry key="2 amount">金额</entry>
+	<entry key="3 orderSn">订单编号</entry>
+	<entry key="4 date">下单日期</entry>
+	<entry key="5 type">订单类型</entry>
+	<entry key="6 areaName">所属地区</entry>
+	<entry key="7 storeType">订单类型</entry>
+	<entry key="8 insuranceAmount">保险抵扣金额</entry>
+	<entry key="9 qitaAmount">除保险抵扣金额</entry>
+</properties>

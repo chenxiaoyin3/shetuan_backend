@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 orderNum">订单编号</entry>
+	<entry key="2 productId">产品ID</entry>
+	<entry key="3 productName">产品名称</entry>
+	<entry key="4 startDate">发团日期</entry>
+	<entry key="5 createDate">下单日期</entry>
+	<entry key="6 contactor">联系人</entry>
+	<entry key="7 people">人数</entry>
+	<entry key="8 store">报名门店</entry>
+	<entry key="9 operator">报名计调</entry>
+	<entry key="10 orderMoney">订单金额</entry>
+	<entry key="11 payTime">支付时间</entry>
+</properties>

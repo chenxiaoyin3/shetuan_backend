@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.HyCountryDao;import com.hongyu.entity.HyCountry;@Repository("hyCountryDaoImpl")public class HyCountryDaoImpl extends BaseDaoImpl<HyCountry, Long> implements HyCountryDao {}

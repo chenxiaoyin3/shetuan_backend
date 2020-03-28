@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 providerName">供货商</entry>
+	<entry key="2 receiverName">客人姓名</entry>
+	<entry key="3 receiverPhone">客人电话</entry>
+	<entry key="4 specialtyName">特产名称</entry>
+	<entry key="5 specification">特产规格</entry>
+	<entry key="6 quantity">购买数量</entry>
+	<entry key="7 salePrice">单价</entry>
+	<entry key="8 totalSalePrice">应支付金额</entry>
+	<entry key="9 costPrice">成本金额</entry>
+	<entry key="10 payMoney">现金支付</entry>
+	<entry key="11 balanceMoney">余额支付</entry>
+	<entry key="12 couponMoney">一次性电子券</entry>
+	<entry key="13 orderCode">订单号</entry>
+	<entry key="14 payTime">支付时间</entry>
+	<entry key="15 weBusinessName">微商名称</entry>
+	<entry key="16 storeName">所属门店</entry>
+	<entry key="17 receiverAddress">收货地址</entry>
+	<entry key="18 remark">备注</entry>
+</properties>

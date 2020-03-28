@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 payCode">打款单编号</entry>
+	<entry key="2 supplierName">供应商名称</entry>
+	<entry key="3 alias">账户简称</entry>
+	<entry key="4 bankName">开户行</entry>
+	<entry key="5 accountName">开户人</entry>
+	<entry key="6 bankAccount">银行账号</entry>
+	<entry key="7 bankCode">银行联行号</entry>
+	<entry key="8 bankType">账户类型</entry>
+	<entry key="9 contractCode">合同号</entry>
+	<entry key="10 name">对接人</entry>
+	<entry key="11 lineOrderSum">应付总金额</entry>
+	
+</properties>

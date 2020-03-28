@@ -1,0 +1,1 @@
+package com.hongyu.service; import com.grain.service.BaseService;import com.hongyu.entity. RefundInfo;public interface RefundInfoService extends BaseService<RefundInfo,Long>{}

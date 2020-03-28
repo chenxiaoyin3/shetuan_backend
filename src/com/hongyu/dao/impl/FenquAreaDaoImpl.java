@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.FenquAreaDao;import com.hongyu.entity.FenquArea;@Repository("fenquAreaDaoImpl")public class FenquAreaDaoImpl extends BaseDaoImpl<FenquArea, Long> implements FenquAreaDao {}

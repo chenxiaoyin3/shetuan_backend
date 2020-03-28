@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+	default-lazy-init="true">
+
+	<context:property-placeholder ignore-unresolvable="true" location="classpath*:config-${spring.profiles.active}.properties" />
+	<!--
+        <context:property-placeholder location="classpath*:/grain.properties" ignore-resource-not-found="true" ignore-unresolvable="true"/>
+    -->
+	<context:component-scan base-package="com" use-default-filters="false">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<mvc:annotation-driven validator="validator" />
+
+	<mvc:annotation-driven>
+		<!-- 注册默认的convert -->
+		<mvc:message-converters register-defaults="true">
+			<!-- 配置RequestMappingHandlerAdapter 需要用到的HttpMessageConvert, 重新制定其supportedMediaTypes 解决@responsebody中文乱码 -->
+			<!-- String convert -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/plain;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+			<!-- json convert -->
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>application/json;charset=UTF-8</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<mvc:interceptors>
+		<!-- 懒加载用 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean id="openSessionInViewInterceptor" class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+				<property name="entityManagerFactory" ref="entityManagerFactory" />
+			</bean>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/common/**" />
+			<bean id="hyLoginInterceptor" class="com.hongyu.interceptor.HyLoginInterceptor" />
+		</mvc:interceptor>
+
+
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
+			<bean id="hyAdminInterceptor" class="com.hongyu.interceptor.HyAdminInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/ymmall/product/category/super_categories" />	<!-- 首页 -->
+			<mvc:mapping path="/ymmall/product/specification_detail_by_specialty_id" />	<!-- 特产详情页 -->
+			<mvc:mapping path="/ymmall/promotion/normal/detail" />	<!-- 普通优惠详情页 -->
+			<mvc:mapping path="/ymmall/promotion/group/detail" />	<!-- 组合优惠详情页 -->
+			<bean id="hyBusinessPVInterceptor" class="com.hongyu.interceptor.HyBusinessPVInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
+		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<!-- 配置freeMarker视图解析器 -->
+<!--	<bean id="viewResolverFtl" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="suffix" value="${template.suffix}" />
+		<property name="order" value="0" />
+	</bean>-->
+
+	<!-- 20180521 xyy -->
+	<!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
+	<mvc:default-servlet-handler />
+	<!-- 静态资源映射 -->
+	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
+
+	<!--JSP视图解析器 -->
+	<bean id="viewResolverJsp" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="defaultErrorView" value="/common/error" />
+	</bean>
+
+	<!-- 静态资源文件的访问 -->
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+	<mvc:resources location="/Javascripts/" mapping="/Javascripts/**" />
+	<mvc:resources location="/Themes/" mapping="/Themes/**" />
+	<mvc:resources location="/images/" mapping="/images/**" />
+	<mvc:resources location="/upload/" mapping="/upload/**" />
+	<mvc:resources location="/favicon.ico" mapping="/favicon.ico" />
+	<mvc:resources location="/index.html" mapping="/index.html" />
+</beans>

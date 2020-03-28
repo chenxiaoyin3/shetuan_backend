@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.PaymentElementItemDao;import com.hongyu.entity.PaymentElementItem;@Repository("paymentElementItemDaoImpl")public class PaymentElementItemDaoImpl extends BaseDaoImpl<PaymentElementItem, Long> implements PaymentElementItemDao {}

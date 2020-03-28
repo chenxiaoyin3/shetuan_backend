@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 storeName">门店名称</entry>
+	<entry key="2 income">收入</entry>
+	<entry key="3 outcome">支出</entry>
+	<entry key="4 balance">余额</entry>
+	<entry key="5 areaName">所属地区</entry>
+	<entry key="4 storeType">门店类型</entry>
+</properties>

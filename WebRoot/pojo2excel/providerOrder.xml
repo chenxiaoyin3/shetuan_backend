@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 providerName">供货商</entry>
+	<entry key="2 specialtyName">特产名称</entry>
+	<entry key="3 specification">特产规格</entry>
+	<entry key="4 quantity">购买数量</entry>
+	<entry key="5 orderCode">订单编号</entry>
+	<entry key="6 receiverName">收货人姓名</entry>
+	<entry key="7 receiverPhone">收货人手机号码</entry>
+	<entry key="8 receiverAddress">收货人地址</entry>
+	<entry key="9 costPrice">成本价</entry>
+	<entry key="10 remark">备注</entry>
+</properties>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <process id="cgbgystuiyajinprocess" name="my process" isExecutable="true">
+    <userTask id="usertask1" name="合同负责人申请退出"></userTask>
+    <userTask id="usertask2" name="采购部审核">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.hongyu.listener.CgbgystyjListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask3" name="品控中心审核">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.hongyu.listener.PinkongTuiyajinshenheListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <userTask id="usertask4" name="副总限额审核">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.hongyu.listener.Fuzongtuiyajinshenhe"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow3" sourceRef="usertask1" targetRef="usertask2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='zongbu'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow4" sourceRef="usertask2" targetRef="usertask3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='tongguo'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="usertask3" targetRef="usertask4">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='tongguo' && money=='more'}]]></conditionExpression>
+    </sequenceFlow>
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <sequenceFlow id="flow7" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
+    <userTask id="usertask5" name="财务审核">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.hongyu.listener.AccountantReview_ServicerDepositRefund_Listener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <sequenceFlow id="flow8" sourceRef="usertask4" targetRef="usertask5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='tongguo'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="usertask5" targetRef="endevent1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='tongguo'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow10" sourceRef="usertask2" targetRef="usertask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='bohui'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow11" sourceRef="usertask3" targetRef="usertask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='bohui'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow12" sourceRef="usertask4" targetRef="usertask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='bohui'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow13" sourceRef="usertask5" targetRef="usertask1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='bohui'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow14" sourceRef="usertask3" targetRef="usertask5">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='tongguo' && money=='less'}]]></conditionExpression>
+    </sequenceFlow>
+    <userTask id="usertask6" name="分公司汽车部审核">
+      <extensionElements>
+        <activiti:taskListener event="create" class="com.hongyu.listener.QicheTuiyajinListener"></activiti:taskListener>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="flow15" sourceRef="usertask1" targetRef="usertask6">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${result=='qiche'}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow16" sourceRef="usertask6" targetRef="usertask3"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_cgbgystuiyajinprocess">
+    <bpmndi:BPMNPlane bpmnElement="cgbgystuiyajinprocess" id="BPMNPlane_cgbgystuiyajinprocess">
+      <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
+        <omgdc:Bounds height="75.0" width="105.0" x="330.0" y="130.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
+        <omgdc:Bounds height="55.0" width="105.0" x="330.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
+        <omgdc:Bounds height="55.0" width="105.0" x="330.0" y="350.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask4" id="BPMNShape_usertask4">
+        <omgdc:Bounds height="55.0" width="105.0" x="330.0" y="460.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="365.0" y="60.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask5" id="BPMNShape_usertask5">
+        <omgdc:Bounds height="55.0" width="105.0" x="330.0" y="560.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="365.0" y="670.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
+        <omgdc:Bounds height="55.0" width="105.0" x="570.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
+        <omgdi:waypoint x="382.0" y="205.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="250.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
+        <omgdi:waypoint x="382.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="382.0" y="405.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="460.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
+        <omgdi:waypoint x="382.0" y="95.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="130.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="382.0" y="515.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="560.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="382.0" y="615.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="670.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow10" id="BPMNEdge_flow10">
+        <omgdi:waypoint x="330.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="213.0" y="277.0"></omgdi:waypoint>
+        <omgdi:waypoint x="213.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="330.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow11" id="BPMNEdge_flow11">
+        <omgdi:waypoint x="435.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="518.0" y="377.0"></omgdi:waypoint>
+        <omgdi:waypoint x="518.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="435.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="330.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="195.0" y="487.0"></omgdi:waypoint>
+        <omgdi:waypoint x="195.0" y="376.0"></omgdi:waypoint>
+        <omgdi:waypoint x="195.0" y="257.0"></omgdi:waypoint>
+        <omgdi:waypoint x="195.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="219.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="330.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="435.0" y="587.0"></omgdi:waypoint>
+        <omgdi:waypoint x="518.0" y="587.0"></omgdi:waypoint>
+        <omgdi:waypoint x="518.0" y="413.0"></omgdi:waypoint>
+        <omgdi:waypoint x="518.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="518.0" y="167.0"></omgdi:waypoint>
+        <omgdi:waypoint x="435.0" y="167.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="382.0" y="405.0"></omgdi:waypoint>
+        <omgdi:waypoint x="704.0" y="437.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="560.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="382.0" y="205.0"></omgdi:waypoint>
+        <omgdi:waypoint x="622.0" y="250.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="622.0" y="305.0"></omgdi:waypoint>
+        <omgdi:waypoint x="382.0" y="350.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

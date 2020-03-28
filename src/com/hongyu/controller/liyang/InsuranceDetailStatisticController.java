@@ -1,0 +1,715 @@
+package com.hongyu.controller.liyang;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.grain.controller.BaseController;
+import com.hongyu.CommonAttributes;
+import com.hongyu.Filter;
+import com.hongyu.Json;
+import com.hongyu.Order;
+import com.hongyu.controller.liyang.InsuranceStatisticsController.Detail;
+import com.hongyu.controller.liyang.InsuranceStatisticsController.Monthly;
+import com.hongyu.controller.liyang.InsuranceStatisticsController.Profit;
+import com.hongyu.entity.HyAdmin;
+import com.hongyu.entity.HyGroup;
+import com.hongyu.entity.HyOrder;
+import com.hongyu.entity.HySupplier;
+import com.hongyu.entity.HySupplierContract;
+import com.hongyu.entity.Insurance;
+import com.hongyu.entity.InsuranceOrder;
+import com.hongyu.entity.Store;
+import com.hongyu.entity.HyRoleAuthority.CheckedOperation;
+import com.hongyu.service.HyAdminService;
+import com.hongyu.service.HyGroupService;
+import com.hongyu.service.HyOrderService;
+import com.hongyu.service.HySupplierContractService;
+import com.hongyu.service.HySupplierService;
+import com.hongyu.service.InsuranceOrderService;
+import com.hongyu.service.InsuranceService;
+import com.hongyu.service.StoreService;
+import com.hongyu.util.AuthorityUtils;
+import com.hongyu.util.DateUtil;
+
+/**
+ * 保险明细表
+ * @author liyang
+ *
+ */
+@Controller
+@RequestMapping("/admin/insuranceDetailStatistics/")
+public class InsuranceDetailStatisticController {
+	@Resource(name = "hyAdminServiceImpl")
+	HyAdminService hyAdminService;
+	
+	@Resource(name = "insuranceOrderServiceImpl")
+	InsuranceOrderService insuranceOrderService;
+	
+	@Resource(name = "storeServiceImpl")
+	StoreService storeService;
+	
+	@Resource(name = "hyOrderServiceImpl")
+	HyOrderService hyOrderService;
+	
+	@Resource(name = "hyGroupServiceImpl")
+	HyGroupService hyGroupService;
+	
+	@Resource(name = "insuranceServiceImpl")
+	InsuranceService insuranceService;
+	
+	@Resource(name = "hySupplierContractServiceImpl")
+	HySupplierContractService hySupplierContractService;
+	
+	@Resource(name = "hySupplierServiceImpl")
+	HySupplierService hySupplierService;
+	
+	BaseController baseController = new BaseController();
+	public static class Detail{
+		private String contact;
+		private Integer customerNums;
+		private String destination;
+		private String supplierName;
+		private String orderNumber;
+		private String linePn;
+		private Date groupStartDate;
+		private Integer groupDays;
+		private String store;
+		private String hyOperator;
+		private String insuranceName;
+		private String type;
+		private Date insuredTime;
+		private BigDecimal money = new BigDecimal(0);
+		public String getContact() {
+			return contact;
+		}
+		public void setContact(String contact) {
+			this.contact = contact;
+		}
+		public Integer getCustomerNums() {
+			return customerNums;
+		}
+		
+		public String getSupplierName() {
+			return supplierName;
+		}
+		public void setSupplierName(String supplierName) {
+			this.supplierName = supplierName;
+		}
+		public void setCustomerNums(Integer customerNums) {
+			this.customerNums = customerNums;
+		}	
+		public String getDestination() {
+			return destination;
+		}
+		public void setDestination(String destination) {
+			this.destination = destination;
+		}
+		public String getOrderNumber() {
+			return orderNumber;
+		}
+		public void setOrderNumber(String orderNumber) {
+			this.orderNumber = orderNumber;
+		}
+		public String getLinePn() {
+			return linePn;
+		}
+		public void setLinePn(String linePn) {
+			this.linePn = linePn;
+		}
+		public Date getGroupStartDate() {
+			return groupStartDate;
+		}
+		public void setGroupStartDate(Date groupStartDate) {
+			this.groupStartDate = groupStartDate;
+		}
+		public Integer getGroupDays() {
+			return groupDays;
+		}
+		public void setGroupDays(Integer groupDays) {
+			this.groupDays = groupDays;
+		}
+		public String getStore() {
+			return store;
+		}
+		public void setStore(String store) {
+			this.store = store;
+		}
+		public String getHyOperator() {
+			return hyOperator;
+		}
+		public void setHyOperator(String hyOperator) {
+			this.hyOperator = hyOperator;
+		}
+		public String getInsuranceName() {
+			return insuranceName;
+		}
+		public void setInsuranceName(String insuranceName) {
+			this.insuranceName = insuranceName;
+		}
+		public String getType() {
+			return type;
+		}
+		public void setType(String type) {
+			this.type = type;
+		}
+		public Date getInsuredTime() {
+			return insuredTime;
+		}
+		public void setInsuredTime(Date insuredTime) {
+			this.insuredTime = insuredTime;
+		}
+		public BigDecimal getMoney() {
+			return money;
+		}
+		public void setMoney(BigDecimal money) {
+			this.money = money;
+		}
+		
+	}
+	@RequestMapping("detail/view")
+	@ResponseBody
+	public Json insuranceDetail(@DateTimeFormat(pattern="yyyy-MM-dd") Date insuredStartTime,@DateTimeFormat(pattern="yyyy-MM-dd") Date insuredEndTime,
+			@DateTimeFormat(pattern="yyyy-MM-dd") Date effectStartTime,@DateTimeFormat(pattern="yyyy-MM-dd") Date effectEndTime,
+			Integer type,Long storeId,String operator,String customerName,
+			String supplierName,HttpSession session,HttpServletRequest request){
+		Json json = new Json();
+		try {
+			//获取用户
+			String username = (String) session.getAttribute(CommonAttributes.Principal);
+			HyAdmin admin = hyAdminService.find(username);		
+			List<Filter> filters = new ArrayList<>();
+			if(insuredStartTime!=null){
+				filters.add(Filter.ge("insuredTime", insuredStartTime));
+			}
+			if(insuredEndTime!=null){
+				Date endDate = DateUtil.getEndOfDay(insuredEndTime);
+				filters.add(Filter.le("insuredTime", endDate));
+			}
+			if(effectStartTime!=null){
+				filters.add(Filter.ge("insuranceStarttime", effectStartTime));
+			}
+			if(effectEndTime!=null){
+				Date endEffectDate = DateUtil.getEndOfDay(effectEndTime);
+				filters.add(Filter.le("insuranceStarttime", endEffectDate));
+			}
+			if(type!=null){
+				filters.add(Filter.eq("type", type));
+			}
+			//只统计已投保的的保单
+			filters.add(Filter.eq("status", 3));
+			List<Order> orders = new ArrayList<>();
+			orders.add(Order.asc("createDate"));
+			List<InsuranceOrder> insuranceOrders = insuranceOrderService.findList(null,filters,orders);
+			HashMap<String, Object> ans = new HashMap<>();
+			List<HashMap<String, Object>> result = new ArrayList<>();
+			BigDecimal sum = new BigDecimal(0);
+			for(InsuranceOrder insuranceOrder:insuranceOrders){
+				HyOrder hyOrder = hyOrderService.find(insuranceOrder.getOrderId());
+				//先判断当前操作人权限四种权限，
+				if(admin.getRole().getName().contains("门店员工") && !operator.equals(admin.getName())){
+					continue;
+				}
+				
+				if(admin.getRole().getName().contains("门店经理")){
+					if(admin.getDepartment().getStore().getId().longValue()!=hyOrder.getStoreId().longValue())
+						continue;
+				}
+				if(storeId!=null){		
+					if(storeId.longValue()!=hyOrder.getStoreId().longValue()){
+						continue;
+					}
+				}
+				if(operator!=null && !hyOrder.getOperator().getName().contains(operator)){
+					continue;
+				}
+				HySupplier hySupplier = null;
+				
+				if(hyOrder.getType()==1){
+//					if(hyOrder.getSupplier()!=null){
+//						List<Filter> filters2 = new ArrayList<>();
+//						filters2.add(Filter.eq("liable", hyOrder.getSupplier()));
+//						List<HySupplierContract> contracts = hySupplierContractService.findList(null,filters2,null);
+//						if(contracts!=null && contracts.size()>0){
+//							hySupplier = contracts.get(0).getHySupplier();
+//							
+//						}					
+//					}
+					HyGroup group = hyGroupService.find(hyOrder.getGroupId());
+					if(group!=null){
+						hySupplier = group.getLine().getHySupplier();
+					}
+				}
+				if(supplierName!=null){
+					if(hySupplier==null || !hySupplier.getSupplierName().contains(supplierName)){
+						continue;
+					}
+				}
+				if(customerName!=null && !hyOrder.getContact().contains(customerName)){
+					continue;
+				}
+				
+				HashMap<String,Object> map = new HashMap<>();
+				map.put("contact",hyOrder.getContact());
+				map.put("customerNums", insuranceOrder.getPolicyHolders().size());
+				map.put("orderId", hyOrder.getId());
+				map.put("orderNumber", hyOrder.getOrderNumber());
+				String destination = "";
+				if(hyOrder.getGroupId()!=null){
+					HyGroup group = hyGroupService.find(hyOrder.getGroupId());
+					map.put("linePn", group.getLine().getPn());
+					destination = group.getLine().getName();
+				}
+				map.put("supplierName", hySupplier==null?"":hySupplier.getSupplierName());
+				map.put("destination", hyOrder.getXianlumingcheng()==null?destination:hyOrder.getXianlumingcheng());
+				map.put("groupStartDate", hyOrder.getFatuandate());
+				map.put("groupDays", hyOrder.getTianshu());
+				Store store = storeService.find(hyOrder.getStoreId());
+				map.put("storeId", store.getId());
+				map.put("store", store.getStoreName());
+				map.put("hyOperator",hyOrder.getOperator().getName());
+				Insurance insurance = insuranceService.find(insuranceOrder.getInsuranceId());
+				map.put("insuranceName", insurance.getRemark());
+				map.put("type", insuranceOrder.getType());
+				map.put("insuredTime", insuranceOrder.getInsuredTime());
+				map.put("money", insuranceOrder.getReceivedMoney());
+				sum = sum.add(insuranceOrder.getReceivedMoney());
+				result.add(map);
+			}
+			ans.put("list", result);
+			ans.put("sum", sum);
+			json.setSuccess(true);
+			json.setMsg("查询成功");
+			json.setObj(ans);
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg("查询失败："+e.getMessage());
+		}
+		return json;
+	}
+	@RequestMapping("detail/view1")
+	@ResponseBody
+	public Json insuranceDetail11(@DateTimeFormat(pattern="yyyy-MM-dd") Date insuredStartTime,@DateTimeFormat(pattern="yyyy-MM-dd") Date insuredEndTime,
+			@DateTimeFormat(pattern="yyyy-MM-dd") Date effectStartTime,@DateTimeFormat(pattern="yyyy-MM-dd") Date effectEndTime,
+			Integer type,Long storeId,String operator,String customerName,
+			String supplierName,HttpSession session,HttpServletRequest request){
+		Json json = new Json();
+		try {
+			/**
+			 * 1.确认当前的权限
+			 * 2.构建sql
+			 * 3.返回结果
+			 */
+			
+			//获取用户
+			String username = (String) session.getAttribute(CommonAttributes.Principal);
+			HyAdmin admin = hyAdminService.find(username);		
+			String roleName = admin.getRole().getName();
+			
+			String tqsql_select = "select o.contact,o.people,o.id,o.order_number,"
+					+ " o.fatuandate,o.tianshu, am.name ,o.xianlumingcheng,"
+					+ "g.group_line_pn as linePn,store.id as storeId,store.store_name,"
+					+ "supplier.supplier_name as supplierName,io.type,insurance.remark,"
+					+ "io.insured_time,io.received_money,io.create_date ";
+			String tqsql_from = "from hy_order as o,hy_insurance_order as io,"
+					+ "hy_admin as am,hy_group as g,hy_line as l,hy_supplier as supplier,"
+					+ "hy_insurance as insurance,hy_store as store ";
+			String tqsql_where = "where io.order_id = o.id and io.status = 3 "
+					+ "and io.type = 0 and io.insurance_id = insurance.id "
+					+ "and o.group_id=g.id and g.line = l.id "
+					+ "and l.supplier = supplier.id and o.operator_id=am.username "
+					+ "and o.store_id = store.id ";
+			
+			String dmsql_select = "select o.contact,o.people,o.id,o.order_number, "
+					+ "o.fatuandate,o.tianshu, am.name ,o.xianlumingcheng,'' as linePn,"
+					+ "store.id as storeId,store.store_name,'' as supplierName,io.type,insurance.remark,"
+					+ "io.insured_time,io.received_money,io.create_date ";
+			String dmsql_from = "from hy_order as o,hy_insurance_order as io,"
+					+ "hy_admin as am,hy_insurance as insurance,hy_store as store ";
+			String dmsql_where = "where io.order_id = o.id and io.status = 3 and io.type=1 "
+					+ "and io.insurance_id = insurance.id and o.operator_id=am.username "
+					+ "and o.store_id = store.id ";
+			StringBuilder conditions = new StringBuilder();
+			/*公共可用的筛选条件*/
+			if(insuredStartTime!=null){
+				Date date = DateUtil.getStartOfDay(insuredStartTime);
+				String starttime = DateUtil.getSimpleDate(date);
+				conditions.append("and unix_timestamp(io.insured_time) >= ")
+					.append("unix_timestamp('"+starttime+"') ");		
+			}
+			if(insuredEndTime!=null){
+				Date date = DateUtil.getEndOfDay(insuredEndTime);
+				String endtime = DateUtil.getSimpleDate(date);
+				conditions.append("and unix_timestamp(io.insured_time) <= ")
+					.append("unix_timestamp('"+endtime+"') ");	
+			}
+			if(effectStartTime!=null){
+				Date date = DateUtil.getStartOfDay(effectStartTime);
+				String starttime = DateUtil.getSimpleDate(date);
+				conditions.append("and unix_timestamp(io.insurance_starttime) >= ")
+					.append("unix_timestamp('"+starttime+"') ");
+			}
+			if(effectEndTime!=null){
+				Date date = DateUtil.getEndOfDay(effectEndTime);
+				String endtime = DateUtil.getSimpleDate(date);
+				conditions.append("and unix_timestamp(io.insurance_starttime) <= ")
+					.append("unix_timestamp('"+endtime+"') ");
+			}
+			if(customerName!=null){
+				conditions.append("and o.contact like '%"+customerName+"%' ");
+			}
+			if(supplierName!=null){
+				conditions.append("and supplier.supplier_name like '%"+supplierName+"'% ");
+			}
+			
+			/*按权限分配的筛选条件*/
+			if(roleName.contains("门店员工")){
+				conditions.append("and am.username = '"+username+"' ");	
+						
+			}else if(roleName.contains("门店经理")){
+				if(operator!=null){
+					conditions.append("and am.name like '%"+operator+"%' ");
+				}
+				Long store_id = admin.getDepartment().getStore().getId();
+				conditions.append("and store.id= "+store_id+" ");		
+				
+			}else{
+				if(operator!=null){
+					conditions.append("and am.name like '%"+operator+"%' ");
+				}
+				if(storeId!=null){
+					conditions.append("and store.id = "+storeId+" ");
+				}
+			}
+			
+			
+			String final_tqsql = tqsql_select+tqsql_from+tqsql_where;
+			String final_dmsql = dmsql_select+dmsql_from+dmsql_where;
+
+			String final_sql = null; 
+			if(type!=null){
+				if(type == 0){
+					final_sql = final_tqsql+conditions.toString()+" order by io.create_date DESC";
+				}else{
+					final_sql = final_dmsql+conditions.toString()+" order by io.create_date DESC";
+				}
+			}else{
+				final_sql = "select * from ("
+						+ "("+final_tqsql+conditions.toString()+") union"
+						+ "("+final_dmsql+conditions.toString()+") "
+						+ ") as h order by h.create_date DESC";
+			}
+			
+			System.out.println("final_sql = "+final_sql);
+			List<Object[]> list = insuranceOrderService.statis(final_sql);
+			HashMap<String, Object> ans = new HashMap<>();
+			List<HashMap<String, Object>> result = new ArrayList<>();
+			
+			BigDecimal sum = new BigDecimal(0);
+			for(Object[] objects:list){
+					
+				HashMap<String,Object> map = new HashMap<>();
+				map.put("contact",objects[0]);
+				map.put("customerNums", objects[1]);
+				map.put("orderId", objects[2]);
+				map.put("orderNumber", objects[3]);
+				map.put("groupStartDate", objects[4]);
+				map.put("groupDays", objects[5]);
+				map.put("hyOperator",objects[6]);
+				map.put("destination",objects[7]);
+				
+				map.put("linePn", objects[8]);
+				map.put("storeId", objects[9]);
+				map.put("store", objects[10]);
+				map.put("supplierName", objects[11]);
+				map.put("type", objects[12]);
+				map.put("insuranceName", objects[13]);
+				map.put("insuredTime", objects[14]);
+				map.put("money", objects[15]);
+				map.put("createTime", objects[16]);
+				sum = sum.add((BigDecimal)objects[15]);
+				result.add(map);
+			}
+			ans.put("list", result);
+			ans.put("sum", sum);
+			json.setSuccess(true);
+			json.setMsg("查询成功");
+			json.setObj(ans);
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg("查询失败："+e.getMessage());
+		}
+		return json;
+	}
+	@RequestMapping("storeList")
+	@ResponseBody
+	public Json getStoreList(HttpSession session){
+		Json json = new Json();
+		try {
+			//获取用户
+			String username = (String) session.getAttribute(CommonAttributes.Principal);
+			HyAdmin admin = hyAdminService.find(username);
+			
+			String jpql = "select id,store_name from hy_store"; 
+			List<Object[]> stores = storeService.statis(jpql);
+			List<HashMap<String, Object>> result = new ArrayList<>();
+			for(Object[] tmp:stores){
+				BigInteger storeId = (BigInteger)tmp[0];
+				if(admin.getRole().getName().contains("门店员工") || admin.getRole().getName().contains("门店经理")){
+					if(admin.getDepartment().getStore().getId()!=storeId.longValue())
+						continue;
+				}
+				HashMap<String, Object> hMap = new HashMap<>();
+				hMap.put("id", (BigInteger)tmp[0]);
+				hMap.put("storeName", (String)tmp[1]);
+				result.add(hMap);
+			}
+
+			json.setMsg("查询成功");
+			json.setSuccess(true);
+			json.setObj(result);
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg("查询失败："+e.getMessage());
+		}
+		return json;
+	}
+	@RequestMapping("employeeList")
+	@ResponseBody
+	public Json getEmployeeList(Long storeId){
+		Json json = new Json();
+		try {
+			Store store = storeService.find(storeId);
+			Set<HyAdmin> admins = store.getDepartment().getHyAdmins();
+			List<HashMap<String, Object>> result = new ArrayList<>();
+			for(HyAdmin admin:admins){
+				HashMap<String, Object> hm = new HashMap<>();
+				hm.put("username", admin.getUsername());
+				hm.put("employeeName", admin.getName());
+				result.add(hm);
+			}
+			json.setMsg("查询成功");
+			json.setSuccess(true);
+			json.setObj(result);
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg("查询失败："+e.getMessage());
+		}
+		return json;
+	}
+	@RequestMapping("customerList")
+	@ResponseBody
+	public Json getCustomerList(Long orderId){
+		Json json = new Json();
+		try {
+			List<Filter> filters = new ArrayList<>();
+			filters.add(Filter.eq("orderId", orderId));
+			InsuranceOrder insuranceOrder = insuranceOrderService.findList(null,filters,null).get(0);
+			
+			json.setMsg("查询成功");
+			json.setSuccess(true);
+			json.setObj(insuranceOrder.getPolicyHolders());
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg("查询失败："+e.getMessage());
+		}
+		return json;
+	}
+	@RequestMapping("supplierList")
+	@ResponseBody
+	public Json getSupplierList(){
+		Json json = new Json();
+		try {
+			String sql = "select id, supplier_name from hy_supplier";
+			List<Object[]> list = hySupplierService.statis(sql);
+			
+			List<HashMap<String, Object>> result = new ArrayList<>();
+			for(Object[] tmp:list){
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("id", tmp[0]);
+				map.put("name", tmp[1]);
+				result.add(map);
+			}
+			
+			json.setMsg("查询成功");
+			json.setSuccess(true);
+			json.setObj(result);
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg("查询失败："+e.getMessage());
+		}
+		return json;
+	}
+	@RequestMapping("permission")
+	@ResponseBody
+	public Json getPermission(HttpSession session,HttpServletRequest request){
+		Json json = new Json();
+		try {
+			//获取用户
+			String username = (String) session.getAttribute(CommonAttributes.Principal);
+			HyAdmin admin = hyAdminService.find(username);
+			HashMap<String, Object> result = new HashMap<>();
+			if(admin.getRole().getName().contains("门店员工")){
+				result.put("permission", "0");
+				//获取门店id
+				result.put("storeId",admin.getDepartment().getStore().getId());
+				result.put("operatorName", admin.getName());
+			}
+			else if(admin.getRole().getName().contains("门店经理")){
+				result.put("permission", "1");
+				//获取门店id
+				result.put("storeId",admin.getDepartment().getStore().getId());
+			}else{
+				result.put("permission", "2");
+			}		
+			json.setMsg("查询成功");
+			json.setSuccess(true);
+			json.setObj(result);
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg("查询失败："+e.getMessage());
+		}
+		return json;
+	}
+	@RequestMapping("detailToExcel/view")
+	@ResponseBody
+	public void detailToExcel(@DateTimeFormat(pattern="yyyy-MM-dd") Date insuredStartTime,@DateTimeFormat(pattern="yyyy-MM-dd") Date insuredEndTime,
+			@DateTimeFormat(pattern="yyyy-MM-dd") Date effectStartTime,@DateTimeFormat(pattern="yyyy-MM-dd") Date effectEndTime,
+			Integer type,Long storeId,String operator,String customerName,
+			String supplierName,HttpSession session,HttpServletRequest request,HttpServletResponse response){
+		try {
+			//获取用户
+			String username = (String) session.getAttribute(CommonAttributes.Principal);
+			HyAdmin admin = hyAdminService.find(username);		
+			List<Filter> filters = new ArrayList<>();
+
+			if(insuredStartTime!=null){
+				filters.add(Filter.ge("insuredTime", insuredStartTime));
+			}
+			if(insuredEndTime!=null){
+				Date endDate = DateUtil.getEndOfDay(insuredEndTime);
+				filters.add(Filter.le("insuredTime", endDate));
+//				filters.add(Filter.le("insuredTime", insuredEndTime));
+			}
+			if(effectStartTime!=null){
+				filters.add(Filter.ge("insuranceStarttime", effectStartTime));
+			}
+			if(effectEndTime!=null){
+				Date endEffectDate = DateUtil.getEndOfDay(effectEndTime);
+				filters.add(Filter.le("insuranceStarttime", endEffectDate));
+//				filters.add(Filter.le("insuranceStarttime", effectEndTime));
+			}
+			if(type!=null){
+				filters.add(Filter.eq("type", type));
+			}
+			//只统计已投保的的保单
+			filters.add(Filter.eq("status", 3));
+			List<Order> orders = new ArrayList<>();
+			orders.add(Order.asc("createDate"));
+			List<InsuranceOrder> insuranceOrders = insuranceOrderService.findList(null,filters,orders);
+			List<Detail> result = new ArrayList<>();
+			BigDecimal sum = new BigDecimal(0);
+			for(int i=0;i<insuranceOrders.size();i++){
+				InsuranceOrder insuranceOrder = insuranceOrders.get(i);
+				HyOrder hyOrder = hyOrderService.find(insuranceOrder.getOrderId());
+				//先判断当前操作人权限四种权限，
+				if(admin.getRole().getName().contains("门店员工") && !operator.equals(admin.getName())){
+					continue;
+				}
+				if(admin.getRole().getName().contains("门店经理")){
+					if(admin.getDepartment().getStore().getId().longValue()!=hyOrder.getStoreId().longValue())
+						continue;
+				}
+				if(storeId!=null){		
+					if(storeId.longValue()!=hyOrder.getStoreId().longValue()){
+						continue;
+					}
+				}
+				if(operator!=null && !hyOrder.getOperator().getName().contains(operator)){
+					continue;
+				}
+				HySupplier hySupplier = null;
+				
+				if(hyOrder.getType()==1){
+					if(hyOrder.getSupplier()!=null){
+						List<Filter> filters2 = new ArrayList<>();
+						filters2.add(Filter.eq("liable", hyOrder.getSupplier()));
+						List<HySupplierContract> contracts = hySupplierContractService.findList(null,filters2,null);
+						if(contracts!=null && contracts.size()>0){
+							hySupplier = contracts.get(0).getHySupplier();
+							
+						}					
+					}			
+				}
+				if(supplierName!=null){
+					if(hySupplier==null || !hySupplier.getSupplierName().contains(supplierName)){
+						continue;
+					}
+				}	
+				if(customerName!=null && !customerName.equals(hyOrder.getContact())){
+					continue;
+				}
+				Detail detail = new Detail();
+				detail.setContact(hyOrder.getContact());
+				//System.out.println(detail.getContact());
+				detail.setCustomerNums(insuranceOrder.getPolicyHolders().size());
+				detail.setOrderNumber(hyOrder.getOrderNumber());
+				String destination = "";
+				if(hyOrder.getGroupId()!=null){
+					HyGroup group = hyGroupService.find(hyOrder.getGroupId());
+					detail.setLinePn(group.getLine().getPn());
+					destination = group.getLine().getName();
+				}
+				detail.setDestination(hyOrder.getXianlumingcheng()==null?destination:hyOrder.getXianlumingcheng());
+				detail.setSupplierName(hySupplier==null?"":hySupplier.getSupplierName());
+				detail.setGroupStartDate(hyOrder.getFatuandate());
+				detail.setGroupDays(hyOrder.getTianshu());
+				Store store = storeService.find(hyOrder.getStoreId());
+				detail.setStore(store.getStoreName());
+				detail.setHyOperator(hyOrder.getOperator().getName());
+				Insurance insurance = insuranceService.find(insuranceOrder.getInsuranceId());
+				detail.setInsuranceName(insurance.getRemark());
+				if(insuranceOrder.getType()==0){
+					detail.setType("团期投保");
+				}else if(insuranceOrder.getType()==1){
+					detail.setType("自主投保");
+				}else if(insuranceOrder.getType()==2){
+					detail.setType("网上投保");
+				}else{
+					detail.setType("其他投保");
+				}
+				detail.setInsuredTime(insuranceOrder.getInsuredTime());
+				detail.setMoney(insuranceOrder.getReceivedMoney());
+				sum = sum.add(insuranceOrder.getReceivedMoney());
+				result.add(detail);
+				
+			}
+			Detail sumDetail = new Detail();
+			sumDetail.setContact("总计");
+			sumDetail.setMoney(sum);
+			result.add(sumDetail);
+			StringBuilder title = new StringBuilder("保险明细表");
+			baseController.export2Excel(request, response, result, "保险明细统计表.xls", title.toString(), "insuranceOrderDetail.xml");	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+}

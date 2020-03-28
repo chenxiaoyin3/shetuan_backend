@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 supplierName">供应商名称</entry>
+	<entry key="2 historyYingfu">历史应付</entry>
+	<entry key="3 historyYifu">历史已付</entry>
+	<entry key="4 historyDaifu">历史欠付</entry>
+	<entry key="5 thisYingfu">本期应付</entry>
+	<entry key="6 thisYifu">本期已付</entry>
+	<entry key="7 thisDaifu">本期欠付</entry>
+	<entry key="8 yingfu">合计应付</entry>
+	<entry key="9 yifu">合计已付</entry>
+	<entry key="10 daifu">合计欠付</entry>
+</properties>

@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.BranchReceiptTotalServicer;import com.grain.dao.BaseDao;public interface BranchReceiptTotalServicerDao extends BaseDao<BranchReceiptTotalServicer, Long>{}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 myorderNumber">订单编号</entry>
+	<entry key="2 myPn">产品ID</entry>
+	<entry key="3 myxianlumingcheng">线路名称</entry>
+	<entry key="4 myxianluType">线路类型</entry>
+	<entry key="5 myfatuanDate">发团日期</entry>
+	<entry key="6 mycreateTime">下单日期</entry>
+	<entry key="7 mycontact">联系人名字</entry>
+	<entry key="8 mypeopleNumber">人数</entry>
+	<entry key="9 myoperatorName">操作人</entry>
+	<entry key="10 mystoreId">门店名称</entry>
+	<entry key="11 myjiusuanMoney">订单金额</entry>
+	<entry key="12 mypurchaseMethod">支付方式</entry>
+	<entry key="13 myperSaveTime">支付时间</entry>
+	<entry key="14 myperSaveID">交易流水号</entry>
+	<entry key="15 mycontractName">供应商</entry>
+	<entry key="16 myjiesuanMoney1">供应商结算价</entry>
+	<entry key="17 myRefundMoney">退款价格</entry>
+	<entry key="18 insuranceMoney">保险价格</entry>
+	<entry key="19 areaName">区域名称</entry>
+	<entry key="20 storeType">门店类型</entry>
+</properties>

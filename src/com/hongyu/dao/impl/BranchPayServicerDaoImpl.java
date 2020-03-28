@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.BranchPayServicerDao;import com.hongyu.entity.BranchPayServicer;@Repository("branchPayServicerDaoImpl")public class BranchPayServicerDaoImpl extends BaseDaoImpl<BranchPayServicer, Long> implements BranchPayServicerDao {}

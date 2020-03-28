@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.WechatAccountBalanceDao;import com.hongyu.entity.WechatAccountBalance;@Repository("wechatAccountBalanceDaoImpl")public class WechatAccountBalanceDaoImpl extends BaseDaoImpl<WechatAccountBalance, Long> implements WechatAccountBalanceDao {}

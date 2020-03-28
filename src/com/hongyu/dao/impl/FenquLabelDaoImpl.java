@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.FenquLabelDao;import com.hongyu.entity.FenquLabel;@Repository("fenquLabelDaoImpl")public class FenquLabelDaoImpl extends BaseDaoImpl<FenquLabel, Long> implements FenquLabelDao {}

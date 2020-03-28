@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.FenquArea;import com.grain.dao.BaseDao;public interface FenquAreaDao extends BaseDao<FenquArea, Long>{}

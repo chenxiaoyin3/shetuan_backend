@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 contact">联系人</entry>
+	<entry key="2 customerNums">人数</entry>
+	<entry key="3 orderNumber">订单号</entry>
+	<entry key="4 linePn">线路产品ID</entry>
+	<entry key="5 groupStartDate">发团时间</entry>
+	<entry key="6 groupDays">出团天数</entry>
+	<entry key="7 store">投保门店</entry>
+	<entry key="8 hyOperator">报名计调</entry>
+	<entry key="9 insuranceName">投保方案</entry>
+	<entry key="10 type">投保方式</entry>
+	<entry key="11 insuredTime">投保日期</entry>
+	<entry key="12 receivedMoney">实收金额</entry>
+	<entry key="13 payMoney">实付金额</entry>
+	<entry key="14 profit">本单利润</entry>
+</properties>

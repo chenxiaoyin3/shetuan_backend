@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.BranchRechargeRecord;import com.grain.dao.BaseDao;public interface BranchRechargeRecordDao extends BaseDao<BranchRechargeRecord, Long>{}

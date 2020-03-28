@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.ZBYLabelProductDao;import com.hongyu.entity.ZBYLabelProduct;@Repository("zbyLabelProductDaoImpl")public class ZBYLabelProductDaoImpl extends BaseDaoImpl<ZBYLabelProduct, Long> implements ZBYLabelProductDao {}

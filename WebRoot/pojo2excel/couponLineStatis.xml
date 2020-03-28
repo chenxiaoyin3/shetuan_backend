@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 sum">优惠券金额</entry>
+	<entry key="2 num">发放数量</entry>
+	<entry key="3 total">发放金额</entry>
+	<entry key="4 freeze">冻结</entry>
+	<entry key="5 notBind">未绑定</entry>
+	<entry key="6 binded">已绑定</entry>
+</properties>

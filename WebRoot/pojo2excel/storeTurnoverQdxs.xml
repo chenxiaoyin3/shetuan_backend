@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 branchName">分公司</entry>
+	<entry key="2 storeNum">门店数量</entry>
+	<entry key="3 orderNum">订单数</entry>
+	<entry key="4 customerNum">收客人数</entry>
+	<entry key="5 turnover">总计金额</entry>
+	
+</properties>

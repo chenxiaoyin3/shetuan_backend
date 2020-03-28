@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.GNYLabelProduct;import com.grain.dao.BaseDao;public interface GNYLabelProductDao extends BaseDao<GNYLabelProduct, Long>{}

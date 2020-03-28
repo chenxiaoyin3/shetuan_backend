@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 startTime">时间</entry>
+	<entry key="2 openView">点击量</entry>
+	<entry key="3 detailView">浏览量</entry>
+	<entry key="4 orderCount">下单量</entry>
+	<entry key="5 payCount">支付量</entry>
+	
+</properties>

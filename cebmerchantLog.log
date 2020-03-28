@@ -1,0 +1,42 @@
+2019-04-11 23:41:49.606 INFO  [CebMerchantProperties] 商户配置文件路径：/G:/git/hy_backend/build/classes//ceb_merchant.properties
+2019-04-11 23:41:49.609 INFO  [CebMerchantProperties] 
+开发者模式                    【development】               ----->no
+容器路径                      【cafile】                    ----->{classPath:com/hongyu/util/bankEntity/cebmerchantreal.jks~|~111111~|~JKS }
+受信任证书库                  【trustKeyStore】             ----->classPath:com/hongyu/util/bankEntity/trustKeystoreReal.jks~|~111111~|~JKS
+商户私钥别名                  【keyAlias】                  ----->null
+网关证书公钥别名              【paygateAlias】              ----->null
+算法提供者                    【provider】                  ----->null
+日志配置文件路径              【log4jFilePath】             ----->classPath:log4jMerchant.properties
+SSL/TLS协议版本               【SSLVersion】                ----->TLSv1
+网关公钥CNName                【paygatePublicKeyCNName】    ----->041@8100000000011748@中国光大银行股份有限公司@00000005
+商户号与商户私钥CNName映射    【merchantIdCNName】          ----->{752010000018~|~041@82006468068@2006468068@00000009,752010000019~|~041@82006468068@2006468068@00000009}
+商户私钥CNName与私钥密码的映射【merchantPrivateKeyCNName】  ----->{041@82006468068@2006468068@00000009~|~19800708}
+
+2019-04-11 23:42:21.562 INFO  [CebMerchantProperties] 商户配置文件路径：/G:/git/hy_backend/build/classes//ceb_merchant.properties
+2019-04-11 23:42:21.564 INFO  [CebMerchantProperties] 
+开发者模式                    【development】               ----->no
+容器路径                      【cafile】                    ----->{classPath:com/hongyu/util/bankEntity/cebmerchantreal.jks~|~111111~|~JKS }
+受信任证书库                  【trustKeyStore】             ----->classPath:com/hongyu/util/bankEntity/trustKeystoreReal.jks~|~111111~|~JKS
+商户私钥别名                  【keyAlias】                  ----->null
+网关证书公钥别名              【paygateAlias】              ----->null
+算法提供者                    【provider】                  ----->null
+日志配置文件路径              【log4jFilePath】             ----->classPath:log4jMerchant.properties
+SSL/TLS协议版本               【SSLVersion】                ----->TLSv1
+网关公钥CNName                【paygatePublicKeyCNName】    ----->041@8100000000011748@中国光大银行股份有限公司@00000005
+商户号与商户私钥CNName映射    【merchantIdCNName】          ----->{752010000018~|~041@82006468068@2006468068@00000009,752010000019~|~041@82006468068@2006468068@00000009}
+商户私钥CNName与私钥密码的映射【merchantPrivateKeyCNName】  ----->{041@82006468068@2006468068@00000009~|~19800708}
+
+2019-04-11 23:47:30.843 INFO  [CebMerchantProperties] 商户配置文件路径：/G:/git/hy_backend/build/classes//ceb_merchant.properties
+2019-04-11 23:47:30.845 INFO  [CebMerchantProperties] 
+开发者模式                    【development】               ----->no
+容器路径                      【cafile】                    ----->{classPath:com/hongyu/util/bankEntity/cebmerchantreal.jks~|~111111~|~JKS }
+受信任证书库                  【trustKeyStore】             ----->classPath:com/hongyu/util/bankEntity/trustKeystoreReal.jks~|~111111~|~JKS
+商户私钥别名                  【keyAlias】                  ----->null
+网关证书公钥别名              【paygateAlias】              ----->null
+算法提供者                    【provider】                  ----->null
+日志配置文件路径              【log4jFilePath】             ----->classPath:log4jMerchant.properties
+SSL/TLS协议版本               【SSLVersion】                ----->TLSv1
+网关公钥CNName                【paygatePublicKeyCNName】    ----->041@8100000000011748@中国光大银行股份有限公司@00000005
+商户号与商户私钥CNName映射    【merchantIdCNName】          ----->{752010000018~|~041@82006468068@2006468068@00000009,752010000019~|~041@82006468068@2006468068@00000009}
+商户私钥CNName与私钥密码的映射【merchantPrivateKeyCNName】  ----->{041@82006468068@2006468068@00000009~|~19800708}
+

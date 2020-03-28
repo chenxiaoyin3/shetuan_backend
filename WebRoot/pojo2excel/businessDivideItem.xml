@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="1 businessName">微商名称</entry>
+	<entry key="2 salesAmount">销售金额</entry>
+	<entry key="3 divideAmount">提成金额</entry>
+	<entry key="4 orderCode">订单号</entry>
+	<entry key="5 specialtyCode">产品编号</entry>
+	<entry key="6 specialtyName">产品名称</entry>
+	<entry key="7 specification">产品规格</entry>
+	<entry key="8 unitPrice">单价</entry>
+	<entry key="9 quantity">数量</entry>
+	<entry key="10 orderTime">订单时间</entry>
+	<entry key="11 payType">支付方式</entry>
+</properties>

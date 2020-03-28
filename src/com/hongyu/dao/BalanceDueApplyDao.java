@@ -1,0 +1,1 @@
+package com.hongyu.dao;import com.hongyu.entity.BalanceDueApply;import com.grain.dao.BaseDao;public interface BalanceDueApplyDao extends BaseDao<BalanceDueApply, Long>{}

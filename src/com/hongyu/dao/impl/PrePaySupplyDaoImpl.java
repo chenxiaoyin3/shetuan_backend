@@ -1,0 +1,1 @@
+package com.hongyu.dao.impl;import org.springframework.stereotype.Repository;import com.grain.dao.impl.BaseDaoImpl;import com.hongyu.dao.PrePaySupplyDao;import com.hongyu.entity.PrePaySupply;@Repository("prePaySupplyDaoImpl")public class PrePaySupplyDaoImpl extends BaseDaoImpl<PrePaySupply, Long> implements PrePaySupplyDao {}
