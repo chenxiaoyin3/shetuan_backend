@@ -57,8 +57,8 @@ public class SendMessageEMY {
     static final String domain = "dysmsapi.aliyuncs.com";
 
     // TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)
-    static final String accessKeyId = "LTAIYGmTkhdiAmnm";
-    static final String accessKeySecret = "GtUu0YjupPzUD3IRKtWZ4lz8Pzi4XJ";
+    static final String accessKeyId = "xxxx";
+    static final String accessKeySecret = "xxxx";
 
 	public static boolean sendMessage(String phone, String templateParam,int type) {
 //		try {
