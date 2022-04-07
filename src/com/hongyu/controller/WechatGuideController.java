@@ -506,12 +506,12 @@ public class WechatGuideController {
 	@RequestMapping("getAuthAccessToken")
 	@ResponseBody
 	public Json getAuthAccessToken(String code){
-//		String appid="wxa5a6e376ccc30774";
-//		String appid="wxc0b22806506237fb";
-		String appid="wx69b4b6538f5d4fba";
-//		String appsecret="6ea7b53174cb89b1659d1848f02f1396";
-//		String appsecret="26fcca971ffb1efd3ffc70249ff4cf00";
-		String appsecret="14b66ee47141925c81a7782e94607789";
+//		String appid="xxxx";
+//		String appid="xxxx";
+		String appid="xxxx";
+//		String appsecret="xxx";
+//		String appsecret="xxx";
+		String appsecret="xxx";
 		String grant_type = "authorization_code";
 		
 		String url="https://api.weixin.qq.com/sns/oauth2/access_token";
