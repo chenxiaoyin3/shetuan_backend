@@ -41,9 +41,9 @@ public class SendMessage {
             return "";
 
         }
-        boolean sr = sendPost("http://smsapi.c123.cn/OpenPlatform/OpenApi?", "action=sendOnce&ac=" + "1001@501054830001" + "&authkey=" + "5200D1440A978FE0C4212BA298B3D70A" + "&cgid=" + 184 + "&c=" + t + "&m=" + cellphone);
+        boolean sr = sendPost("http://smsapi.c123.cn/OpenPlatform/OpenApi?", "action=sendOnce&ac=" + "1001@501054830001" + "&authkey=" + "XXXX" + "&cgid=" + 184 + "&c=" + t + "&m=" + cellphone);
         String account = "13488689615";
-        String password = "yuntaobupt1234";
+        String password = "XXXX";
         String taskId = account + "_" + new SimpleDateFormat("yyyyMMddHHss").format(new Date()) + "_http_" + Math.round((Math.random()) * 100000);
         String param = "account=" + account + "&password=" + password + "&content=" + t + "&sendtime=&phonelist=" + cellphone + "&taskId=" + taskId;
         System.out.println(param);
